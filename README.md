@@ -2,7 +2,7 @@
 平时上班做的东西很简单，如果做久了容易思维定式，学习目前优秀的限流框架，跟着一个开源的限流框架，把项目作为学习技术的驱动力，不断精进自己。
 
 
-Features
+## Features
 RateLimiter是一个高度容错，低延迟，高性能的限流开发库/框架，提供了对HTTP接口的访问限流功能。其特点：
 
 提供了各种灵活的配置方式，同时支持零配置纯编程使用模式
@@ -15,4 +15,4 @@ RateLimiter是一个高度容错，低延迟，高性能的限流开发库/框�
 支持不同粒度的接口限流，支持接口中包含restful url template variables
 灵活的集成方式，方便集成spring开发框架
 Prerequisite
-RateLimit4J需要Java 8及以上版本
+RateLimit4需要Java 8及以上版本
