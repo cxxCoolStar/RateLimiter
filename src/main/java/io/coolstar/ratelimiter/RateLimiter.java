@@ -1,9 +1,13 @@
 package io.coolstar.ratelimiter;
 
+import io.coolstar.ratelimiter.alg.FixedTimeRateLimitAlg;
 import io.coolstar.ratelimiter.alg.RateLimitAlg;
 import io.coolstar.ratelimiter.rule.ApiLimit;
 import io.coolstar.ratelimiter.rule.RateLimitRule;
 import io.coolstar.ratelimiter.rule.RuleConfig;
+import io.coolstar.ratelimiter.rule.TrieRateLimitRule;
+import io.coolstar.ratelimiter.rule.datasource.FileRuleConfigSource;
+import io.coolstar.ratelimiter.rule.datasource.RuleConfigSource;
 import org.apache.maven.InternalErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,27 +24,9 @@ public class RateLimiter {
   private RateLimitRule rule;
 
   public RateLimiter() {
-    // 将限流规则配置文件ratelimiter-rule.yaml中的内容读取到RuleConfig中
-    InputStream in = null;
-    RuleConfig ruleConfig = null;
-    try {
-      in = this.getClass().getResourceAsStream("/ratelimiter-rule.yaml");
-      if (in != null) {
-        Yaml yaml = new Yaml();
-        ruleConfig = yaml.loadAs(in, RuleConfig.class);
-      }
-    } finally {
-      if (in != null) {
-        try {
-          in.close();
-        } catch (IOException e) {
-          log.error("close file error:{}", e);
-        }
-      }
-    }
-
-    // 将限流规则构建成支持快速查找的数据结构RateLimitRule
-    this.rule = new RateLimitRule(ruleConfig);
+    RuleConfigSource configSource = new FileRuleConfigSource();
+    RuleConfig ruleConfig = configSource.load();
+    this.rule = new TrieRateLimitRule(ruleConfig);
   }
 
   public boolean limit(String appId, String url) throws Exception {
@@ -53,7 +39,7 @@ public class RateLimiter {
     String counterKey = appId + ":" + apiLimit.getApi();
     RateLimitAlg rateLimitCounter = counters.get(counterKey);
     if (rateLimitCounter == null) {
-      RateLimitAlg newRateLimitCounter = new RateLimitAlg(apiLimit.getLimit());
+      RateLimitAlg newRateLimitCounter = new FixedTimeRateLimitAlg(apiLimit.getLimit());
       rateLimitCounter = counters.putIfAbsent(counterKey, newRateLimitCounter);
       if (rateLimitCounter == null) {
         rateLimitCounter = newRateLimitCounter;
@@ -62,5 +48,10 @@ public class RateLimiter {
 
     // 判断是否限流
     return rateLimitCounter.tryAcquire();
+  }
+
+  public static void main(String[] args) {
+    RateLimiter rateLimiter = new RateLimiter();
+
   }
 }

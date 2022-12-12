@@ -2,16 +2,15 @@ package io.coolstar.ratelimiter.rule;
 
 /**
  * @author chenxingxing
- * @date 2022/12/11 7:28 下午
+ * @date 2022/12/12 9:14 下午
  */
+public interface RateLimitRule {
 
-public class RateLimitRule {
-    public RateLimitRule(RuleConfig ruleConfig) {
-        //...
-    }
-
-    public ApiLimit getLimit(String appId, String api) {
-        //...
-        return new ApiLimit();
-    }
+    /**
+     * 通过appId和api获取ApiLimit
+     * @param appId
+     * @param api
+     * @return
+     */
+    ApiLimit getLimit(String appId, String api);
 }
