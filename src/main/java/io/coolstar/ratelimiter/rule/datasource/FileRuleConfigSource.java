@@ -6,6 +6,7 @@ import io.coolstar.ratelimiter.rule.parser.RuleConfigParser;
 import io.coolstar.ratelimiter.rule.parser.YamlRuleConfigParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ public class FileRuleConfigSource implements RuleConfigSource {
     private static final Logger log = LoggerFactory.getLogger(FileRuleConfigSource.class);
 
     public static final String API_LIMIT_CONFIG_NAME = "ratelimiter-rule";
+    private  String customApiLimitConfigPath;
     public static final String YAML_EXTENSION = "yaml";
     public static final String YML_EXTENSION = "yml";
     public static final String JSON_EXTENSION = "json";
@@ -33,6 +35,17 @@ public class FileRuleConfigSource implements RuleConfigSource {
         PARSER_MAP.put(YML_EXTENSION, new YamlRuleConfigParser());
         PARSER_MAP.put(JSON_EXTENSION, new JsonRuleConfigParser());
     }
+
+    public FileRuleConfigSource() {
+
+    }
+
+    public FileRuleConfigSource(String configLocation) {
+        this.customApiLimitConfigPath = configLocation;
+
+    }
+
+
 
     @Override
     public RuleConfig load() {
@@ -58,6 +71,9 @@ public class FileRuleConfigSource implements RuleConfigSource {
     }
 
     private String getFileNameByExt(String extension) {
-        return API_LIMIT_CONFIG_NAME + "." + extension;
+        return StringUtils.isEmpty(customApiLimitConfigPath) ?
+                API_LIMIT_CONFIG_NAME + "." + extension
+                : customApiLimitConfigPath;
+
     }
 }

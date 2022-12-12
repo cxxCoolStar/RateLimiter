@@ -13,8 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author chenxingxing
  * @date 2022/12/11 7:28 下午
  */
-
-
 public class FixedTimeRateLimitAlg implements RateLimitAlg{
     /* timeout for {@code Lock.tryLock() }. */
     private static final long TRY_LOCK_TIMEOUT = 200L;  // 200ms.
@@ -45,6 +43,7 @@ public class FixedTimeRateLimitAlg implements RateLimitAlg{
                     if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(1)) {
                         currentCount.set(0);
                         stopwatch.reset();
+                        stopwatch.start();
                     }
                     updatedCount = currentCount.incrementAndGet();
                     return updatedCount <= limit;
