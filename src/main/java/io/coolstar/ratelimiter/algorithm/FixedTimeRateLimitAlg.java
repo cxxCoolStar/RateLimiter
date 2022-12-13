@@ -1,4 +1,4 @@
-package io.coolstar.ratelimiter.alg;
+package io.coolstar.ratelimiter.algorithm;
 
 import com.google.common.base.Stopwatch;
 import org.apache.maven.InternalErrorException;

@@ -1,20 +1,16 @@
 package io.coolstar.ratelimiter;
 
-import io.coolstar.ratelimiter.alg.FixedTimeRateLimitAlg;
-import io.coolstar.ratelimiter.alg.RateLimitAlg;
+import io.coolstar.ratelimiter.algorithm.FixedTimeRateLimitAlg;
+import io.coolstar.ratelimiter.algorithm.RateLimitAlg;
 import io.coolstar.ratelimiter.rule.ApiLimit;
 import io.coolstar.ratelimiter.rule.RateLimitRule;
 import io.coolstar.ratelimiter.rule.RuleConfig;
-import io.coolstar.ratelimiter.rule.TrieRateLimitRule;
+import io.coolstar.ratelimiter.rule.UrlRateLimitRule;
 import io.coolstar.ratelimiter.rule.datasource.FileRuleConfigSource;
 import io.coolstar.ratelimiter.rule.datasource.RuleConfigSource;
-import org.apache.maven.InternalErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RateLimiter {
@@ -26,7 +22,7 @@ public class RateLimiter {
   public RateLimiter() {
     RuleConfigSource configSource = new FileRuleConfigSource();
     RuleConfig ruleConfig = configSource.load();
-    this.rule = new TrieRateLimitRule(ruleConfig);
+    this.rule = new UrlRateLimitRule(ruleConfig);
   }
 
   public boolean limit(String appId, String url) throws Exception {

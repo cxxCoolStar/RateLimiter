@@ -1,4 +1,4 @@
-package io.coolstar.ratelimiter.alg;
+package io.coolstar.ratelimiter.algorithm;
 
 /**
  * @author chenxingxing

@@ -1,12 +1,10 @@
 package io.coolstar.ratelimiter.rule;
 
-import lombok.Data;
 
 /**
  * @author chenxingxing
  * @date 2022/12/11 7:27 下午
  */
-@Data
 public class ApiLimit {
     private static final int DEFAULT_TIME_UNIT = 1; // 1 second
     private String api;
@@ -24,5 +22,37 @@ public class ApiLimit {
         this.limit = limit;
         this.unit = unit;
     }
-    // ...省略getter、setter方法...
+
+    public String getApi() {
+        return api;
+    }
+
+    public void setApi(String api) {
+        this.api = api;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public int getUnit() {
+        return unit;
+    }
+
+    public void setUnit(int unit) {
+        this.unit = unit;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiLimit{" +
+                "api='" + api + '\'' +
+                ", limit=" + limit +
+                ", unit=" + unit +
+                '}';
+    }
 }
