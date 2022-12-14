@@ -1,7 +1,5 @@
 package io.coolstar.ratelimiter.rule;
 
-import lombok.Data;
-
 import java.util.List;
 
 /**

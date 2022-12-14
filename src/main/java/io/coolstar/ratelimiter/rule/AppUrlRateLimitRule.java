@@ -25,8 +25,16 @@ public class AppUrlRateLimitRule {
     root = new Node("/");
   }
 
+  /**
+   * add limit info
+   *
+   * 1. 计算
+   *
+   * @param apiLimit
+   * @throws InvalidUrlException
+   */
   public void addLimitInfo(ApiLimit apiLimit) throws InvalidUrlException {
-
+    //1.
   }
 
   /**

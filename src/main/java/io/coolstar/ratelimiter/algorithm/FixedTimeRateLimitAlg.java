@@ -2,7 +2,6 @@ package io.coolstar.ratelimiter.algorithm;
 
 import com.google.common.base.Stopwatch;
 import org.apache.maven.InternalErrorException;
-import org.assertj.core.util.VisibleForTesting;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +24,7 @@ public class FixedTimeRateLimitAlg implements RateLimitAlg{
         this(limit, Stopwatch.createStarted());
     }
 
-    @VisibleForTesting
+   // @VisibleForTesting
     protected FixedTimeRateLimitAlg(int limit, Stopwatch stopwatch) {
         this.limit = limit;
         this.stopwatch = stopwatch;
