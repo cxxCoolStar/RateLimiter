@@ -1,6 +1,5 @@
 package io.coolstar.ratelimiter.rule.parser;
 
-import io.coolstar.ratelimiter.RateLimiter;
 import io.coolstar.ratelimiter.rule.RuleConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
