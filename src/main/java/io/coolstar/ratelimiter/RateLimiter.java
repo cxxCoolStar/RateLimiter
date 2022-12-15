@@ -46,7 +46,8 @@ public class RateLimiter {
     return rateLimitCounter.tryAcquire();
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     RateLimiter rateLimiter = new RateLimiter();
+    rateLimiter.limit("app-1","/v1/user");
   }
 }

@@ -24,7 +24,17 @@ public class UrlRateLimitRule implements RateLimitRule{
     public UrlRateLimitRule() {}
 
     public UrlRateLimitRule(RuleConfig ruleConfig) {
-        //TODO
+
+        List<RuleConfig.AppRuleConfig> configs = ruleConfig.getConfigs();
+        configs.forEach(config-> {
+            AppUrlRateLimitRule appUrlRateLimitRule = new AppUrlRateLimitRule();
+            try {
+                appUrlRateLimitRule.addLimitInfos(config.getLimits());
+            } catch (InvalidUrlException e) {
+                e.printStackTrace();
+            }
+            limitRules.put(config.getAppId(),appUrlRateLimitRule);
+        });
 
     }
 
@@ -38,8 +48,7 @@ public class UrlRateLimitRule implements RateLimitRule{
             return null;
         }
 
-        ApiLimit apiLimit = appUrlRateLimitRule.getLimitInfo(urlPath);
-        return apiLimit;
+        return appUrlRateLimitRule.getLimitInfo(urlPath);
     }
 
     @Override
