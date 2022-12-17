@@ -1,6 +1,6 @@
 package io.coolstar.ratelimiter.test;
 
-import com.google.common.util.concurrent.RateLimiter;
+import io.coolstar.ratelimiter.RateLimiter;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,7 +21,7 @@ public class RateLimitAop {
     @Autowired
     private HttpServletResponse response;
  
-    private RateLimiter rateLimiter = RateLimiter.create(1.0); //比如说，我这里设置"并发数"为1
+    private RateLimiter rateLimiter = new RateLimiter();//比如说，我这里设置"并发数"为1
  
     @Pointcut("@annotation(io.coolstar.ratelimiter.test.RateLimitAspect)")
     public void serviceLimit() {
@@ -29,8 +29,9 @@ public class RateLimitAop {
     }
  
     @Around("serviceLimit()")
-    public Object around(ProceedingJoinPoint joinPoint) {
-        Boolean flag = rateLimiter.tryAcquire();
+    public Object around(ProceedingJoinPoint joinPoint) throws Exception {
+        // TODO 获取接口的uri
+        Boolean flag = rateLimiter.limit("app-1","/v1/user");
         Object obj = null;
         try {
             if (flag) {

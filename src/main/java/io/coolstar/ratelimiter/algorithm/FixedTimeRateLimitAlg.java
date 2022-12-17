@@ -41,8 +41,7 @@ public class FixedTimeRateLimitAlg implements RateLimitAlg{
                 try {
                     if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > TimeUnit.SECONDS.toMillis(1)) {
                         currentCount.set(0);
-                        stopwatch.reset();
-                        stopwatch.start();
+                        stopwatch.reset().start();
                     }
                     updatedCount = currentCount.incrementAndGet();
                     return updatedCount <= limit;

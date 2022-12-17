@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class RateLimiter {
   private static final Logger log = LoggerFactory.getLogger(RateLimiter.class);
@@ -48,6 +49,13 @@ public class RateLimiter {
 
   public static void main(String[] args) throws Exception {
     RateLimiter rateLimiter = new RateLimiter();
-    rateLimiter.limit("app-1","/v1/user");
+    for (int i = 0; i < 10; i++) {
+      System.out.println(rateLimiter.limit("app-1", "/v1/user"));
+    }
+    Thread.sleep(1980);
+    for (int i = 0; i < 10; i++) {
+      System.out.println(rateLimiter.limit("app-1", "/v1/user"));
+    }
+    System.out.println();
   }
 }
